@@ -1,0 +1,13 @@
+# config/data/fairface.yaml
+# Configuration for FairFace dataset (used by Probes)
+
+_target_: src.datasets.datasets.FairFaceDataset
+
+# Parameters passed to FairFaceDataset constructor
+hdf5_path: ${data_root}/fairface_latent_stratified.hdf5 # Example path using data_root
+# mode will be overridden by trainer ('training' or 'validation')
+# return_labels: Controls which labels are returned by the dataset
+# - ['all']: Return all available labels (default)
+# - []: Return features only
+# - ['age', 'gender']: Return only specific labels
+return_labels: [] # Default to loading all labels for probes 

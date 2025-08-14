@@ -1,0 +1,38 @@
+# config/config.yaml
+# Main configuration entry point
+
+defaults:
+  - model: sparse_autoencoder
+  - dataset: fairface_labels
+  - trainer: sparse_autoencoder # This now brings in the class and its HPs
+  # Optional overrides can be placed in a separate file (e.g., local.yaml)
+  # and added to the defaults list:
+  # - override local # Keep sensitive info like API keys out of main config
+  - _self_ # Include settings defined directly below last
+
+# --- Common Settings ---
+# Use environment variables or set defaults
+project_root: ${oc.env:PROJECT_ROOT,.}
+data_root: ${oc.env:DATA_ROOT,${project_root}/data}
+# Ensure SCRATCH exists or default to project_root/outputs
+output_root: ${oc.env:SCRATCH,${project_root}/outputs}
+
+# --- WandB Settings ---
+wandb:
+  project: "irve-sparse-autoencoder" # Default project name
+  entity: null # Set your WandB entity via env var (WANDB_ENTITY) or here
+  log_config: True
+  log_model: True # Save final model checkpoint as wandb artifact
+
+# --- Global Training Settings ---
+device: "auto" # auto | cpu | cuda
+
+# --- Hydra Settings ---
+hydra:
+  run:
+    # Output structure: outputs/experiment_name/YYYY-MM-DD/HH-MM-SS
+    dir: ${output_root}/${hydra.job.config_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    # Output structure for sweeps: multirun/experiment_name/YYYY-MM-DD/HH-MM-SS/job_num_overrides
+    dir: ${output_root}/multirun/${hydra.job.config_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}_${hydra.job.override_dirname} # Example subdir naming 

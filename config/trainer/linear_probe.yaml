@@ -1,0 +1,11 @@
+_target_: src.trainers.probe_trainer.ProbeTrainer
+
+# --- Training Hyperparameters ---
+learning_rate: 1e-3
+batch_size: 256
+num_epochs: 100
+
+# Optional DataLoader parameters (using standard names)
+num_workers: 4
+pin_memory: True 
+use_amp: True

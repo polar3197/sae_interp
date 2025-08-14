@@ -1,0 +1,4 @@
+_target_: src.models.linear_probes.LinearProbe
+age_classes: 9
+gender_classes: 2
+race_classes: 7 
